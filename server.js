@@ -1,11 +1,8 @@
 var express = require('express');
-
 var bodyParser = require('body-parser');
-
 var _ = require('underscore');
 
 var app = express();
-
 var PORT = process.env.PORT || 3000;
 
 var todos = [];
@@ -22,21 +19,16 @@ app.get('/todos', function(req,res){
 });
 
 app.get('/todos/:id',function(req,res){
-	var todoid = req.params.id;
-	if(!isNaN(todoid)){
+	var todoID = req.params.id;
+	
+	todoID = parseInt(todoID,10);
 
-		var todoidNum = parseInt(todoid);
+	var todoObject = _.findWhere(todos, {id: todoID});
 
-		if( todoidNum <= todos.length && todoidNum >=1 ){
-
-		var todoObject = todos[todoidNum-1];
+	if(todoObject){
 		res.json(todoObject);
-
-		}else{
-		res.status(404).send('No todo item with that id : ' + todoid);
-		}
 	}else{
-		res.status(404).send('No todo item with that id : ' + todoid);
+		res.status(404).send();
 	}
 });
 
@@ -57,6 +49,22 @@ app.post('/todos',function(req,res){
 
 });
 
+app.delete('/todos/:id', function (req, res){
+	 var todoID = parseInt(req.params.id,10);
+
+	 var todoObject = _.findWhere(todos, {id: todoID});
+	 console.log(todoObject);
+
+	 if(todoObject){
+	 	todos = _.without(todos,todoObject);
+	 	res.json(todoObject)
+	 }else{
+		res.status(400).send();
+	}
+
+});
+
 app.listen(PORT,function(){
 	console.log('Express listening on port :' + PORT);
-})
+});
+
