@@ -53,7 +53,6 @@ app.delete('/todos/:id', function (req, res){
 	 var todoID = parseInt(req.params.id,10);
 
 	 var todoObject = _.findWhere(todos, {id: todoID});
-	 console.log(todoObject);
 
 	 if(todoObject){
 	 	todos = _.without(todos,todoObject);
@@ -61,6 +60,39 @@ app.delete('/todos/:id', function (req, res){
 	 }else{
 		res.status(400).send();
 	}
+
+});
+
+app.put('/todos/:id', function(req, res){
+
+
+	var todoID = parseInt(req.params.id,10);
+	var todoObject = _.findWhere(todos, {id: todoID});
+	var body =  _.pick(req.body, 'description', 'completed');
+	var putObject = {};
+
+
+	if(!todoObject){
+		return res.status(404).send('No todo item with id : ' + todoID);
+	}
+
+	if(body.hasOwnProperty('description') && _.isString(body.description) && body.description.trim().length>0){
+		putObject.description = body.description;
+	}else if(body.hasOwnProperty('description')){
+		return res.status(400).send('');
+	}
+
+	if(body.hasOwnProperty('completed') && _.isBoolean(body.completed)){
+		putObject.completed = body.completed;
+	}else if(body.hasOwnProperty('completed')){
+		console.log('here');
+		return res.status(400).send('');
+	}
+
+	_.extend(todoObject, putObject);
+
+	return res.status(200).send(putObject);
+
 
 });
 
