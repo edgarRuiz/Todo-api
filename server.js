@@ -105,11 +105,11 @@ app.put('/todos/:id', function(req, res) {
 
 	var attributes = {};
 
-	if(body.hasOwnProperty('completed')) {
+	if (body.hasOwnProperty('completed')) {
 		attributes.completed = body.completed;
 	}
 
-	if(body.hasOwnProperty('description')) {
+	if (body.hasOwnProperty('description')) {
 		attributes.description = body.description;
 	}
 
@@ -130,33 +130,19 @@ app.put('/todos/:id', function(req, res) {
 	}).catch(function(error) {
 		res.status(500);
 	});
-	// var todoObject = _.findWhere(todos, {
-	// 	id: todoID
-	// });
-	// var body = _.pick(req.body, 'description', 'completed');
-	// var putObject = {};
+});
 
+app.post('/users', function(req, res) {
 
-	// if (!todoObject) {
-	// 	return res.status(404).send('No todo item with id : ' + todoID);
-	// }
+	var body = _.pick(req.body, 'email', 'password');
 
-	// if (body.hasOwnProperty('description') && _.isString(body.description) && body.description.trim().length > 0) {
-	// 	putObject.description = body.description;
-	// } else if (body.hasOwnProperty('description')) {
-	// 	return res.status(400).send('');
-	// }
-
-	// if (body.hasOwnProperty('completed') && _.isBoolean(body.completed)) {
-	// 	putObject.completed = body.completed;
-	// } else if (body.hasOwnProperty('completed')) {
-	// 	return res.status(400).send('');
-	// }
-
-	// _.extend(todoObject, putObject);
-
-	// return res.status(200).send(putObject);
-
+	db.user.create(body).then(function(todo) {
+		if (todo) {
+			res.json(todo);
+		}
+	}).catch(function(error) {
+		res.status(400).send();
+	});
 
 });
 
