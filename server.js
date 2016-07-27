@@ -79,18 +79,32 @@ app.post('/todos', function(req, res) {
 });
 
 app.delete('/todos/:id', function(req, res) {
-	var todoID = parseInt(req.params.id, 10);
+	var todoId = parseInt(req.params.id, 10);
 
-	var todoObject = _.findWhere(todos, {
-		id: todoID
+	db.todo.findById(todoId).then(function(todo) {
+		if (todo) {
+			return todo.destroy();
+		} else {
+			res.status(404).json();
+		}
+	}, function(error) {
+		res.status(500).json(error);
+	}).then(function(){
+		res.json('Destroyed');
+	},function(error){
+		res.status(400);
 	});
 
-	if (todoObject) {
-		todos = _.without(todos, todoObject);
-		res.json(todoObject)
-	} else {
-		res.status(400).send();
-	}
+	// var todoObject = _.findWhere(todos, {
+	// 	id: todoID
+	// });
+
+	// if (todoObject) {
+	// 	todos = _.without(todos, todoObject);
+	// 	res.json(todoObject)
+	// } else {
+	// 	res.status(400).send();
+	// }
 
 });
 
