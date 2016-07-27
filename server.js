@@ -17,26 +17,36 @@ app.get('/', function(req, res) {
 
 app.get('/todos', function(req, res) {
 
-	var queryParams = req.query;
-	var filteredTodos = todos;
+	var query = req.query;
+	var where = {};
 
-	if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'true') {
-		filteredTodos = _.where(filteredTodos, {
-			completed: true
-		});
-	} else if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'false') {
-		filteredTodos = _.where(filteredTodos, {
-			completed: false
-		});
+
+	if (query.hasOwnProperty('completed')) {
+		where.completed = (query.completed ==='true')?true : false ;
+	}
+	if (query.hasOwnProperty('q') && query.q.trim().length > 0) {
+		var percent = '%';
+		var desc = percent + query.q + percent;
+		where.description = {
+			$like: desc
+		}
 	}
 
-	if (queryParams.hasOwnProperty('q') && queryParams.q.trim().length > 0) {
-		filteredTodos = _.filter(filteredTodos, function(todo) {
-			return todo.description.toLowerCase().indexOf(queryParams.q.trim().toLowerCase()) > -1;
-		});
-	}
-
-	res.json(filteredTodos);
+	db.todo.findAll({
+		where: where
+	}).then(function(todos) {
+		if (todos) {
+			var todoObjects = [];
+			todos.forEach(function(todo) {
+				todoObjects.push(todo);
+			});
+			res.json(todoObjects);
+		} else {
+			res.json();
+		}
+	}).catch(function() {
+		res.status(404).send();
+	});
 });
 
 app.get('/todos/:id', function(req, res) {
@@ -45,24 +55,12 @@ app.get('/todos/:id', function(req, res) {
 	db.todo.findById(todoId).then(function(todo) {
 		if (todo) {
 			res.json(todo);
-		}
-		else{
+		} else {
 			res.status(404).json();
 		}
 	}, function(error) {
 		res.status(500).json(error);
 	});
-	// todoID = parseInt(todoID, 10);
-
-	// var todoObject = _.findWhere(todos, {
-	// 	id: todoID
-	// });
-
-	// if (todoObject) {
-	// 	res.json(todoObject);
-	// } else {
-	// 	res.status(404).send();
-	// }
 });
 
 app.post('/todos', function(req, res) {
@@ -77,17 +75,6 @@ app.post('/todos', function(req, res) {
 	}).catch(function(e) {
 		res.status(400).json(e);
 	});
-
-	// if (!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
-	// 	return res.status(400).send();
-	// }
-
-	// body.description = body.description.trim();
-
-	// body.id = todoNextID++;
-	// todos.push(body);
-	// res.json(body);
-
 
 });
 
