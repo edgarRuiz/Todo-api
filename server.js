@@ -28,7 +28,7 @@ app.get('/todos', function(req, res) {
 		var percent = '%';
 		var desc = percent + query.q + percent;
 		where.description = {
-			$like: desc
+			$ilike: desc
 		}
 	}
 
