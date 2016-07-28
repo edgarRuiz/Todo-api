@@ -1,5 +1,7 @@
 var bcrypt = require('bcryptjs');
 var _ = require('underscore');
+var cryptojs = require('crypto-js');
+var jwt = require('jsonwebtoken');
 
 module.exports = function(sequelize, DataTypes) {
 	var user = sequelize.define('user', {
@@ -40,10 +42,10 @@ module.exports = function(sequelize, DataTypes) {
 				}
 			}
 		},
-		classMethods:{
-			authenticate : function(body){
-				return new Promise(function(resolve,reject){
-					if(!_.isString(body.email) || !_.isString(body.password)){
+		classMethods: {
+			authenticate: function(body) {
+				return new Promise(function(resolve, reject) {
+					if (!_.isString(body.email) || !_.isString(body.password)) {
 						return reject();
 					}
 					user.findOne({
@@ -67,6 +69,24 @@ module.exports = function(sequelize, DataTypes) {
 
 				var json = this.toJSON();
 				return _.pick(json, 'id', 'email', 'createdAt', 'changedAt');
+			},
+			generateToken: function(type) {
+				if (!_.isString(type)) {
+					return undefined;
+				}
+				try{
+					var stringData = JSON.stringify({id: this.get('id'), type: type});
+					var encryptedData = cryptojs.AES.encrypt(stringData,'abc123!@#').toString();
+					var token = jwt.sign({
+						token:encryptedData
+					},'qwerty098');
+
+					return token;
+				}catch(e){
+					//console.log(e);
+					return undefined;
+				}
+
 			}
 
 		}
