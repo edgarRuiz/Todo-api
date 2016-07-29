@@ -13,11 +13,11 @@ var todoNextID = 1;
 
 app.use(bodyParser.json());
 
-app.get('/',middleware.requireAuthentification, function(req, res) {
+app.get('/', middleware.requireAuthentification, function(req, res) {
 	res.send('Todo API Root');
 });
 
-app.get('/todos', middleware.requireAuthentification,function(req, res) {
+app.get('/todos', middleware.requireAuthentification, function(req, res) {
 
 	var query = req.query;
 	var where = {};
@@ -51,7 +51,7 @@ app.get('/todos', middleware.requireAuthentification,function(req, res) {
 	});
 });
 
-app.get('/todos/:id',middleware.requireAuthentification, function(req, res) {
+app.get('/todos/:id', middleware.requireAuthentification, function(req, res) {
 	var todoId = req.params.id;
 
 	db.todo.findById(todoId).then(function(todo) {
@@ -73,14 +73,19 @@ app.post('/todos', middleware.requireAuthentification, function(req, res) {
 		description: body.description.trim(),
 		completed: body.completed
 	}).then(function(todo) {
+		req.user.addTodo(todo).then(function() {
+			return todo.reload();
+		}).then(function(todo) {
 		res.json(todo);
+	})
 	}).catch(function(e) {
-		res.status(400).json(e);
+		res.status(400).send(e);
 	});
+
 
 });
 
-app.delete('/todos/:id',middleware.requireAuthentification,function(req, res) {
+app.delete('/todos/:id', middleware.requireAuthentification, function(req, res) {
 	var todoId = parseInt(req.params.id, 10);
 
 	db.todo.destroy({
