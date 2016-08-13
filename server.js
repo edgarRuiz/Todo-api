@@ -11,6 +11,7 @@ var PORT = process.env.PORT || 3000;
 var todos = [];
 var todoNextID = 1;
 
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
 app.get('/', middleware.requireAuthentification, function(req, res) {
@@ -122,7 +123,7 @@ app.put('/todos/:id', middleware.requireAuthentification, function(req, res) {
 	}
 
 	db.todo.findById(todoId).then(function(todo) {
-		if (todo &&(todo.get('userId') === req.user.get('id'))) {
+		if (todo && (todo.get('userId') === req.user.get('id'))) {
 			return todo.update(attributes);
 		} else {
 			res.status(404).send();
@@ -157,23 +158,38 @@ app.post('/users', function(req, res) {
 app.post('/users/login', function(req, res) {
 
 	var body = _.pick(req.body, 'email', 'password');
+	var userInstance;
 
 	db.user.authenticate(body).then(function(user) {
 			var token = user.generateToken('authentication');
-			if (token) {
-				res.header('Auth', token).json(user.toPublicJSON()).send();
-
-			} else {
-				res.status(401).send();
-			}
+			userInstance = user;
+			return db.token.create({
+				token: token
+			});
 		},
 		function() {
 			res.status(401).send();
-		});
+		}).then(function(token) {
+		if (token) {
+			res.header('Auth', token.get('token')).json(userInstance.toPublicJSON());
+		} else {
+			res.status(401).send();
+		}
+	}).catch(function(error) {
+		res.status(401).send(error);
+	});
+});
+
+app.delete('/users/login', middleware.requireAuthentification, function(req,res){
+	req.token.destroy().then(function(){
+		res.status(204).send();
+	},function(){
+		res.status(500).send();
+	});
 });
 
 db.sequelize.sync({
-	force: true
+	//force: true
 }).then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port :' + PORT);
