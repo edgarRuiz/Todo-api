@@ -12,7 +12,8 @@ var todos = [];
 var todoNextID = 1;
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false})); 
+//app.use(bodyParser.json());
 
 app.get('/', middleware.requireAuthentification, function(req, res) {
 	res.send('Todo API Root');
@@ -142,7 +143,7 @@ app.put('/todos/:id', middleware.requireAuthentification, function(req, res) {
 });
 
 app.post('/users', function(req, res) {
-
+	console.log("Here");
 	var body = _.pick(req.body, 'email', 'password');
 
 	db.user.create(body).then(function(user) {
@@ -180,16 +181,44 @@ app.post('/users/login', function(req, res) {
 	});
 });
 
-app.delete('/users/login', middleware.requireAuthentification, function(req,res){
-	req.token.destroy().then(function(){
+app.delete('/users/login', middleware.requireAuthentification, function(req, res) {
+	req.token.destroy().then(function() {
 		res.status(204).send();
-	},function(){
+	}, function() {
 		res.status(500).send();
 	});
 });
 
+app.put('/users', middleware.requireAuthentification, function(req, res) {
+
+	var email = _.pick(req.body, 'email');
+
+	if (email) {
+
+		db.user.findById(req.user.id).then(function(user) {
+			return user.update(email);
+		}, function(error) {
+			res.status(404).send();
+		}).then(function(user) {
+			if (user) {
+				res.send(user.toPublicJSON());
+			}else{
+				res.status(404).send();
+			}
+		}, function(error) {
+			res.status(500).send();
+		});
+		// db.user.update(email).then(function(todo){
+		// 	res.json(todo).send();
+		// },function(error){
+		// 	res.status(500).send()
+		// });
+	}
+
+});
+
 db.sequelize.sync({
-	//force: true
+	force: true
 }).then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port :' + PORT);
