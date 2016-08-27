@@ -149,7 +149,7 @@ app.post('/users', function(req, res) {
 	db.user.create(body).then(function(user) {
 		if (user) {
 			//res.json(user.toPublicJSON());
-			res.render("users");
+			res.render("users", {email : user.email});
 		}
 	}).catch(function(error) {
 		res.status(400).send();
@@ -173,11 +173,14 @@ app.post('/users/login', function(req, res) {
 			res.status(401).send();
 		}).then(function(token) {
 		if (token) {
-			res.header('Auth', token.get('token')).json(userInstance.toPublicJSON());
+			//res.header('Auth', token.get('token')).json(userInstance.toPublicJSON());
+			res.header('Auth', token.get('token'));
+			res.render("users", {email: userInstance.email});
 		} else {
 			res.status(401).send();
 		}
 	}).catch(function(error) {
+		console.error(error);
 		res.status(401).send(error);
 	});
 });
