@@ -11,6 +11,7 @@ var PORT = process.env.PORT || 3000;
 var todos = [];
 var todoNextID = 1;
 
+app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false})); 
 //app.use(bodyParser.json());
@@ -143,12 +144,12 @@ app.put('/todos/:id', middleware.requireAuthentification, function(req, res) {
 });
 
 app.post('/users', function(req, res) {
-	console.log("Here");
 	var body = _.pick(req.body, 'email', 'password');
 
 	db.user.create(body).then(function(user) {
 		if (user) {
-			res.json(user.toPublicJSON());
+			//res.json(user.toPublicJSON());
+			res.render("users");
 		}
 	}).catch(function(error) {
 		res.status(400).send();
