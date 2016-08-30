@@ -11,12 +11,14 @@ var PORT = process.env.PORT || 3000;
 var todos = [];
 var todoNextID = 1;
 
+var authToken;
+
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false})); 
 //app.use(bodyParser.json());
 
-app.get('/', middleware.requireAuthentification, function(req, res) {
+app.get('/',  function(req, res) {
 	res.send('Todo API Root');
 });
 
@@ -175,6 +177,8 @@ app.post('/users/login', function(req, res) {
 		if (token) {
 			//res.header('Auth', token.get('token')).json(userInstance.toPublicJSON());
 			res.header('Auth', token.get('token'));
+			authToken = token.get('token');
+			middleware.setAuthToken(authToken);
 			res.render("users", {email: userInstance.email});
 		} else {
 			res.status(401).send();

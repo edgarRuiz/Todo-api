@@ -13,7 +13,7 @@
 	<br>
 
 	<h1>Post new Todo</h1>
-	<form>
+	<form action = "http://localhost:3000/todos" method = "post">
 		
 		Description:<br>
 		<input type="text" name="description" placeholder = "Brief description"><br>
@@ -27,7 +27,14 @@
 
 	<br><br>
 	<h1>Todos</h1>
+	<form action="http://localhost:3000/todos" method="get">
+	  <button type="submit">get Todos</button>
+	</form>
+	<script>
+		function getTodos(){
 
+		}
+	</script>
 	</body>
 
 
