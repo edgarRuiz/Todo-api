@@ -6,6 +6,8 @@
 	</head>
 	<body>
 		<h1>Sign up</h1>
+		<button id = "button" onclick = "onclickButton()">Signup</button>
+		<div id ="signup"  style="display: none;">
 		<form action = "http://localhost:3000/users" method = "post">
 		  email:<br>
 		  <input type="text" name="email"><br>
@@ -15,7 +17,7 @@
 		  <input type="submit" value="Sign up">
 
 		</form>
-
+		</div>
 		<br>
 
 		<h1>Log in</h1>
@@ -28,6 +30,13 @@
 		   <input type="submit" value="Log in">
 
 		</form>
+	<script>
+
+		function onclickButton(){
+			document.getElementById('signup').style.display = "block";
+			document.getElementById('button').style.display = "none";
+		}
+	</script>
 
 
 	</body>
