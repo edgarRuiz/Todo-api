@@ -1,0 +1,70 @@
+#container{
+	height: 520px;
+	width : 350px;
+	margin: auto;
+	background-color: #c5d0e2;
+	border-radius:15px;
+	padding:20px;
+}
+
+h1{
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+	line-height:6px;
+}
+
+input[type=submit]{
+	margin: 0 auto;
+}
+
+#container2{
+	top:20px;
+	position:relative;
+}
+
+#line{
+	margin-top: 30px;
+	height: 2px;
+	background-color: #aec3e5;
+}
+
+#orCircle{
+	position: absolute;
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+	top: -22px;
+	left: 150px;
+	background-color:#aec3e5;
+}
+
+button{
+	margin-left:145px;
+}
+
+form{
+	margin-top: 30px;
+	margin-left:100px;
+	font-weight:bold;
+}
+
+input{
+	border-radius:4px;
+}
+
+input[type=submit]{
+	background-color: #748093;
+	color:white;
+	margin-left: 46px;
+}
+
+input[type=submit]:hover{
+	color:black;
+}
+
+#logincontainer{
+	margin-top:80px;
+}

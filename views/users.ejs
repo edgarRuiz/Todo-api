@@ -3,33 +3,35 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Todo API</title>
+		<link rel="stylesheet" type="text/css" href="/styles/styles2.css">
+
 	</head>
 	<body>
-		
-	<p>
-	Hello 
-	<%= email %> 
-	</p>
-	<br>
 
-	<h1>Post new Todo</h1>
-	<form action = "http://localhost:3000/todos" method = "post">
-		
-		Description:<br>
-		<input type="text" name="description" placeholder = "Brief description"><br>
-		Completed:<br>
-		<input type="text" name="completed" placeholder="true or false">
-		<br><br>
-		<input type="submit" value="Submit">
+	<div id= "container">
+		<p>
+		Hello 
+		<%= email %> 
+		</p>
+		<br>
 
-
+		<h1>Post new Todo</h1>
+		<form action = "http://localhost:3000/todos" method = "post">
+			
+			Description:<br>
+			<input type="text" name="description" placeholder = "Brief description"><br>
+			Completed:<br>
+			<input type="text" name="completed" placeholder="true or false">
+			<br><br>
+			<input type="submit" value="Submit">
 	</form>
-
 	<br><br>
 	<h1>Todos</h1>
 	<form action="http://localhost:3000/todos" method="get">
 	  <button type="submit">get Todos</button>
 	</form>
+	</div>
+	
 	<script>
 		function getTodos(){
 
