@@ -3,40 +3,50 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Todo API</title>
-	</head>
+		<link rel="stylesheet" type="text/css" href="/styles/styles.css">
+
+ 	</head>
 	<body>
-		<h1>Sign up</h1>
-		<button id = "button" onclick = "onclickButton()">Signup</button>
-		<div id ="signup"  style="display: none;">
-		<form action = "http://localhost:3000/users" method = "post">
-		  email:<br>
-		  <input type="text" name="email"><br>
-		  password:<br>
-		  <input type="password" name="password">
-		  <br><br>
-		  <input type="submit" value="Sign up">
+		<div id  = "container">
+			<div id  = "signupcontainer">
+				<h1>Sign up</h1>
+				<div id ="signup">
+					<form action = "http://localhost:3000/users" method = "post">
+					  email:<br>
+					  <input type="text" name="email" placeholder="email"><br>
+					  password:<br>
+					  <input type="password" name="password" placeholder ="password">
+					  <br><br>
+					  <input type="submit" value="Sign up">
 
-		</form>
+					</form>
+				</div>
+			</div>
+			<br>
+			<div id = "container2">
+				<hr id = "line">
+			
+				<div id = "orCircle">
+					<h3>or</h3>
+				</div>
+			</div>
+			<div id = "logincontainer">
+				<h1>Log in</h1>
+				<form action = "http://localhost:3000/users/login" method = "post">
+				  email:<br>
+				  <input type="text" name="email" placeholder ="email"><br>
+				  password:<br>
+				  <input type="password" name="password" placeholder = "password">
+				  <br><br>
+				   <input type="submit" value="Log in">
+
+				</form>
+			<div>
 		</div>
-		<br>
 
-		<h1>Log in</h1>
-		<form action = "http://localhost:3000/users/login" method = "post">
-		  email:<br>
-		  <input type="text" name="email"><br>
-		  password:<br>
-		  <input type="password" name="password">
-		  <br><br>
-		   <input type="submit" value="Log in">
+		<script>
 
-		</form>
-	<script>
-
-		function onclickButton(){
-			document.getElementById('signup').style.display = "block";
-			document.getElementById('button').style.display = "none";
-		}
-	</script>
+		</script>
 
 
 	</body>
