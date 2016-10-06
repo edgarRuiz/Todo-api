@@ -23,17 +23,21 @@
 			</p>
 
 		</div>
-		<form action = "http://localhost:3000/deleteTodos/" method = "post">
+
+		<br>
+		<button onclick = "location.href = 'http://localhost:3000/mainPage'">Post new todo</button><br><br>
+
+		<form action = "<%=url%>/deleteTodos/" method = "post">
 				
-			Delete:<br>
+			Delete (enter todo id):<br>
 			<input style = "text-align: center; width: 45px; " type="number" name="id" placeholder = "id"><br>
 			<input type="submit" value="Delete">
 
 		</form>
 				<br><br>
-			<form action = "http://localhost:3000/editTodos" method = "post">
+			<form action = "<%=url%>/editTodos" method = "post">
 				
-				Edit todo:<br>
+				Edit todo (enter todo id):<br>
 				<input style = "text-align: center; width: 46px; " type="number" name="id" placeholder = "id"><br>
 				Description:<br>
 				<input type="text" name="description" placeholder = "new description"><br>

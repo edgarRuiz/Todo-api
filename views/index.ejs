@@ -11,7 +11,7 @@
 		<div id  = "signupcontainer" class = "containers">
 			<h1>Sign up</h1>
 			<div id ="signup">
-				<form action = "http://localhost:3000/users" method = "post">
+				<form action = "<%=url%>/users" method = "post">
 					Email:<br>
 					<input type="text" name="email" placeholder="email"><br>
 					Password:<br>
@@ -32,7 +32,7 @@
 		</div>
 		<div id = "logincontainer" class = "containers">
 			<h1>Log in</h1>
-			<form action = "http://localhost:3000/users/login" method = "post">
+			<form action = "<%=url%>/users/login" method = "post">
 				Email:<br>
 				<input type="text" name="email" placeholder ="email"><br>
 				Password:<br>

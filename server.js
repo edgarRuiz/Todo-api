@@ -7,6 +7,7 @@ var middleware = require('./middleware.js')(db);
 
 var app = express();
 var PORT = process.env.PORT || 3000;
+var url = process.env.URL || 'http://localhost:3000';
 
 var todos = [];
 var todoNextID = 1;
@@ -19,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 //app.use(bodyParser.json());
 
 app.get('/',  function(req, res) {
-	res.send('Todo API Root');
+	res.render('index', {url : url});
 });
 
 app.get('/todos', middleware.requireAuthentification, function(req, res) {
@@ -47,7 +48,7 @@ app.get('/todos', middleware.requireAuthentification, function(req, res) {
 				todoObjects.push(todo);
 			});
 			//res.json(todoObjects);
-			res.render("todos", {todos: todoObjects});
+			res.render("todos", {todos: todoObjects, url: url});
 		} else {
 			res.json();
 		}
@@ -72,7 +73,6 @@ app.get('/todos/:id', middleware.requireAuthentification, function(req, res) {
 });
 
 app.post('/todos', middleware.requireAuthentification, function(req, res) {
-	console.log('here');
 	var body = _.pick(req.body, 'description', 'completed');
 
 	db.todo.create({
@@ -160,7 +160,7 @@ app.post('/users', function(req, res) {
 	db.user.create(body).then(function(user) {
 		if (user) {
 			//res.json(user.toPublicJSON());
-			res.render("users", {email : user.email });
+			res.render("users", {email : user.email , url :url});
 		}
 	}).catch(function(error) {
 		res.status(400).send();
@@ -188,7 +188,8 @@ app.post('/users/login', function(req, res) {
 			res.header('Auth', token.get('token'));
 			authToken = token.get('token');
 			middleware.setAuthToken(authToken);
-			res.render("users", {email: userInstance.email});
+			app.locals.email = userInstance.email;
+			res.redirect('/mainPage');
 		} else {
 			res.status(401).send();
 		}
@@ -197,6 +198,11 @@ app.post('/users/login', function(req, res) {
 		res.status(401).send(error);
 	});
 });
+
+app.get('/mainPage', function(req,res){
+	var email = app.locals.email;
+	res.render("users", {email: email, url:url});
+})
 
 app.delete('/users/login', middleware.requireAuthentification, function(req, res) {
 	req.token.destroy().then(function() {
