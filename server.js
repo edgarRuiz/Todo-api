@@ -7,7 +7,7 @@ var middleware = require('./middleware.js')(db);
 
 var app = express();
 var PORT = process.env.PORT || 3000;
-var url = process.env.MYSITE_URL;
+var url = process.env.MYSITE_URL || 'http://localhost:3000';
 
 var todos = [];
 var todoNextID = 1;
