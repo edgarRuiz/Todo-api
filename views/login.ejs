@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Todo API</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="/styles/styles.css">
+
+	</head>
+
+	<body>
+		<div id = "container">
+
+			<div id = "logincontainer" class = "containers">
+			<h1>Log in</h1>
+			<form action = "<%=url%>/users/login" method = "post">
+				Email:<br>
+				<input type="text" name="email" placeholder ="email"><br>
+				Password:<br>
+				<input type="password" name="password" placeholder = "password">
+				<br><br>
+				<input type="submit" value="Log in">
+
+			</form>
+		</div>
+		</div>
+	</body>
+</html>

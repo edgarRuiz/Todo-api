@@ -160,7 +160,8 @@ app.post('/users', function(req, res) {
 	db.user.create(body).then(function(user) {
 		if (user) {
 			//res.json(user.toPublicJSON());
-			res.render("users", {email : user.email , url :url});
+			//res.render("users", {email : user.email , url :url});
+			res.render('login', {url:url});
 		}
 	}).catch(function(error) {
 		res.status(400).send();
