@@ -1,0 +1,34 @@
+html{
+	color: gray;
+	font-family: helvetica;
+	text-align:center;
+}
+
+#container{
+	height: auto;
+	width : 350px;
+	margin: auto;
+	background-color: #c5d0e2;
+	border-radius:15px;
+	padding:20px;
+}
+
+#innercontainer{
+	border: 3px solid #bec9db;
+	border-radius: 7px;
+	background-color:#bec9db;
+	padding-bottom:15px;
+}
+
+#line{
+	margin-top: 30px;
+	height: 2px;
+}
+
+h4{
+	text-transform: uppercase;
+}
+
+button{
+	magin-left:;
+}

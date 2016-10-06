@@ -1,5 +1,6 @@
 html{
-	color:gray;
+	color: gray;
+	font-family: helvetica;
 }
 
 #container{
@@ -23,4 +24,34 @@ h1{
 	border-radius: 7px;
 	background-color:#bec9db;
 	padding-bottom:15px;
+}
+
+form{
+	margin-left: 100px;
+	font-weight: bold;
+}
+
+input{
+	border-radius:4px;
+}
+
+input[type=submit]{
+	background-color: #748093;
+	color:white;
+	margin-left: 46px;
+}
+
+input[type=submit]:hover{
+	color:black;
+}
+
+button{
+	margin-left:46px;
+	background-color: #748093;
+	color:white;
+	border-radius: 4px;
+}
+
+button:hover{
+	color:black;
 }
