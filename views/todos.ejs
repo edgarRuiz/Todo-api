@@ -14,15 +14,33 @@
 
 			<p>
 				<% todos.forEach(function(todo){%>
+				<p><span style = "font-weight:bold">id</span> <%=todo.id %></p>
 				<p><h4>Description</h4><%=todo.description %>
-					<h4>Completed</h4> <%=todo.completed %>
+				<h4>Completed</h4> <%=todo.completed %>
 				</p><hr id = "line">
 				<%})%>
-				
-			</p>
-			
-		</div>
 
+			</p>
+
+		</div>
+		<form action = "http://localhost:3000/deleteTodos/" method = "post">
+				
+			Delete:<br>
+			<input style = "text-align: center; width: 45px; " type="number" name="id" placeholder = "id"><br>
+			<input type="submit" value="Delete">
+
+		</form>
+				<br><br>
+			<form action = "http://localhost:3000/editTodos" method = "post">
+				
+				Edit todo:<br>
+				<input style = "text-align: center; width: 46px; " type="number" name="id" placeholder = "id"><br>
+				Description:<br>
+				<input type="text" name="description" placeholder = "new description"><br>
+				Completed:<br>
+				<input type="text" name="completed" placeholder="true or false"><br>
+				<input type="submit" value="Edit">
+			</form>
 	</div>
 
 </body>

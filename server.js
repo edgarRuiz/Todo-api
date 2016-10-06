@@ -82,7 +82,7 @@ app.post('/todos', middleware.requireAuthentification, function(req, res) {
 		req.user.addTodo(todo).then(function() {
 			return todo.reload();
 		}).then(function(todo) {
-			res.json(todo);
+			res.redirect('/todos');
 			console.log(todo);
 		})
 	}).catch(function(e) {
@@ -92,31 +92,31 @@ app.post('/todos', middleware.requireAuthentification, function(req, res) {
 
 });
 
-app.delete('/todos/:id', middleware.requireAuthentification, function(req, res) {
-	var todoId = parseInt(req.params.id, 10);
-
+app.post('/deleteTodos/', middleware.requireAuthentification, function(req, res) {
+	//var todoId = parseInt(req.params.id, 10);
+	var todoId = _.pick(req.body, 'id');
 	db.todo.destroy({
 		where: {
-			id: todoId,
+			id: todoId.id,
 			userId: req.user.get('id')
 		}
 	}).then(function(rowsDeleted) {
 		if (rowsDeleted === 0) {
 			res.status(404).json({
-				error: 'No todo with that id'
+				error: 'No todo with that id' +todoId.id
 			});
 		} else {
-			res.status(204).send();
+			//res.status(204).send();
+			res.redirect('/todos');
 		}
 	}, function() {
 		res.status(500).send();
 	})
 });
 
-app.put('/todos/:id', middleware.requireAuthentification, function(req, res) {
+app.post('/editTodos/', middleware.requireAuthentification, function(req, res) {
 
-	var todoId = parseInt(req.params.id, 10);
-	var body = _.pick(req.body, 'description', 'completed');
+	var body = _.pick(req.body,'id', 'description', 'completed');
 
 	var attributes = {};
 
@@ -128,8 +128,14 @@ app.put('/todos/:id', middleware.requireAuthentification, function(req, res) {
 		attributes.description = body.description;
 	}
 
-	db.todo.findById(todoId).then(function(todo) {
+	db.todo.findById(body.id).then(function(todo) {
 		if (todo && (todo.get('userId') === req.user.get('id'))) {
+			if(!attributes.completed){
+				attributes.completed = todo.completed;
+			}
+			if(!attributes.description){
+				attributes.description = todo.description;
+			}
 			return todo.update(attributes);
 		} else {
 			res.status(404).send();
@@ -138,7 +144,8 @@ app.put('/todos/:id', middleware.requireAuthentification, function(req, res) {
 		res.status(500);
 	}).then(function(todo) {
 		if (todo) {
-			res.json(todo).send();
+			//res.json(todo).send();
+			res.redirect('todos');
 		}
 	}, function(error) {
 		res.status(400).json(error);
