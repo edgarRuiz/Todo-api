@@ -9,12 +9,11 @@
 	<body>
 
 	<div id= "container">
-		<p>
-		Hello 
+		<h3>
 		<%= email %> 
-		</p>
+		</h3>
 		<br>
-
+		<div id = "postnewtodo">
 		<h1>Post new Todo</h1>
 		<form action = "http://localhost:3000/todos" method = "post">
 			
@@ -24,12 +23,13 @@
 			<input type="text" name="completed" placeholder="true or false">
 			<br><br>
 			<input type="submit" value="Submit">
-	</form>
-	<br><br>
-	<h1>Todos</h1>
-	<form action="http://localhost:3000/todos" method="get">
-	  <button type="submit">get Todos</button>
-	</form>
+		</form>
+		</div>
+		<br><br>
+		<h1>Todos</h1>
+		<form action="http://localhost:3000/todos" method="get">
+		  <button type="submit">get Todos</button>
+		</form>
 	</div>
 	
 	<script>

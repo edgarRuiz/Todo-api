@@ -8,13 +8,13 @@
  	</head>
 	<body>
 		<div id  = "container">
-			<div id  = "signupcontainer">
+			<div id  = "signupcontainer" class = "containers">
 				<h1>Sign up</h1>
 				<div id ="signup">
 					<form action = "http://localhost:3000/users" method = "post">
-					  email:<br>
+					  Email:<br>
 					  <input type="text" name="email" placeholder="email"><br>
-					  password:<br>
+					  Password:<br>
 					  <input type="password" name="password" placeholder ="password">
 					  <br><br>
 					  <input type="submit" value="Sign up">
@@ -30,12 +30,12 @@
 					<h3>or</h3>
 				</div>
 			</div>
-			<div id = "logincontainer">
+			<div id = "logincontainer" class = "containers">
 				<h1>Log in</h1>
 				<form action = "http://localhost:3000/users/login" method = "post">
-				  email:<br>
+				  Email:<br>
 				  <input type="text" name="email" placeholder ="email"><br>
-				  password:<br>
+				  Password:<br>
 				  <input type="password" name="password" placeholder = "password">
 				  <br><br>
 				   <input type="submit" value="Log in">

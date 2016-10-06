@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Todo API</title>
+		<link rel="stylesheet" type="text/css" href="/styles/styles3.css">
+
+	</head>
+	<body>
+
+	<div id= "container">
+		<h2>TODOS</h3>
+		<p>
+				<% todos.forEach(function(todo){%>
+					<p>Description:<%=todo.description %>
+						Completed : <%=todo.completed %>
+					</p>
+					<%})%>
+			
+		</p>
+		
+	</div>
+
+	</body>
+
+
+</html>

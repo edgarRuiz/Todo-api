@@ -1,3 +1,7 @@
+html{
+	color:gray;
+}
+
 #container{
 	height: auto;
 	width : 350px;
@@ -5,4 +9,18 @@
 	background-color: #c5d0e2;
 	border-radius:15px;
 	padding:20px;
+}
+
+h3{
+	text-align:center;
+}
+h1{
+	text-align:center;
+}
+
+#postnewtodo{
+	border: 3px solid #bec9db;
+	border-radius: 7px;
+	background-color:#bec9db;
+	padding-bottom:15px;
 }

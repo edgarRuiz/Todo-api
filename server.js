@@ -46,7 +46,8 @@ app.get('/todos', middleware.requireAuthentification, function(req, res) {
 			todos.forEach(function(todo) {
 				todoObjects.push(todo);
 			});
-			res.json(todoObjects);
+			//res.json(todoObjects);
+			res.render("todos", {todos: todoObjects});
 		} else {
 			res.json();
 		}
@@ -71,7 +72,7 @@ app.get('/todos/:id', middleware.requireAuthentification, function(req, res) {
 });
 
 app.post('/todos', middleware.requireAuthentification, function(req, res) {
-
+	console.log('here');
 	var body = _.pick(req.body, 'description', 'completed');
 
 	db.todo.create({
@@ -82,6 +83,7 @@ app.post('/todos', middleware.requireAuthentification, function(req, res) {
 			return todo.reload();
 		}).then(function(todo) {
 			res.json(todo);
+			console.log(todo);
 		})
 	}).catch(function(e) {
 		res.status(400).send(e);
@@ -151,7 +153,7 @@ app.post('/users', function(req, res) {
 	db.user.create(body).then(function(user) {
 		if (user) {
 			//res.json(user.toPublicJSON());
-			res.render("users", {email : user.email});
+			res.render("users", {email : user.email });
 		}
 	}).catch(function(error) {
 		res.status(400).send();
@@ -225,9 +227,7 @@ app.put('/users', middleware.requireAuthentification, function(req, res) {
 
 });
 
-db.sequelize.sync({
-	force: true
-}).then(function() {
+db.sequelize.sync(/*{force:true}*/).then(function() {
 	app.listen(PORT, function() {
 		console.log('Express listening on port :' + PORT);
 	});

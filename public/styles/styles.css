@@ -1,5 +1,9 @@
+html{
+	color: gray;
+	font-family: helvetica;
+}
 #container{
-	height: 520px;
+	height: 590px;
 	width : 350px;
 	margin: auto;
 	background-color: #c5d0e2;
@@ -67,4 +71,12 @@ input[type=submit]:hover{
 
 #logincontainer{
 	margin-top:80px;
+}
+
+.containers{
+	border: 3px solid #bec9db;
+	border-radius: 7px;
+	background-color:#bec9db;
+	padding-bottom:15px;
+
 }
